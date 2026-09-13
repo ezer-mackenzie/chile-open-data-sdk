@@ -1,7 +1,18 @@
 # Release process
 
-Publication is not automatic. The current workflow only prepares artifacts on
-manual dispatch; it does not upload to PyPI or create a remote release.
+The `Publish Python Package to PyPI` workflow validates, builds, and publishes
+through PyPI Trusted Publishing. Publishing a non-prerelease GitHub Release
+triggers it automatically. You can also run it manually with the required `tag`
+input, naming an existing version tag (for example `v0.1.0`). Manual dispatch is a
+publication action, not a build-only preview; it may also explicitly select a
+prerelease tag if the package version and all checks agree.
+
+The build job checks out `refs/tags/<tag>` with full history, verifies that the tag
+is `v<project.version>` and resolves to the checked-out commit, then runs tests,
+Ruff, mypy, BasedPyright, strict documentation, and artifact checks using uv.
+Only after that job succeeds does a separate job download the built artifacts
+and upload them to PyPI. Runs for the same tag share a concurrency group and do
+not cancel an in-progress publication.
 
 ## Prepare a reviewable checkpoint
 
@@ -43,15 +54,30 @@ raw credentials in reports. Confirm the MIT license remains appropriate.
 
 Review the actual GitHub CI results for the release commit; local checks do not
 prove remote CI has run. Confirm the package name is available/owned on PyPI,
-maintainer access, and the intended publication account. Configure trusted
-publishing and an appropriately protected environment if adopting that workflow.
-Review the API, documentation, release notes, and any validation limitations.
-Obtain explicit publication authorization before uploading or pushing release tags.
+maintainer access, and the intended publication account. Configure a PyPI Trusted
+Publisher for the following identity:
 
-After approval, publish the reviewed artifacts, push the annotated tag, and create
-release notes from `docs/release-notes.md`. Do not replace an already published
-version or move an existing release tag. Fix genuine defects in a new patch
-release. Signing is optional unless already configured reliably.
+- Project: `chile-open-data-sdk`.
+- GitHub owner: `ezer-mackenzie`.
+- Repository: `chile-open-data-sdk`.
+- Workflow filename: `publish.yml`.
+- GitHub environment: `pypi`.
+
+Create/configure the `pypi` GitHub environment and any desired protection rules.
+Only the publication job has `id-token: write`; no stored PyPI token is required.
+See [PyPI Trusted Publishing](https://docs.pypi.org/trusted-publishers/using-a-publisher/).
+Review the API, documentation, release notes, and any validation limitations
+before publishing a GitHub Release or manually dispatching this workflow.
+
+Push the reviewed annotated tag, then publish its GitHub Release with notes from
+`docs/release-notes.md`, or manually dispatch `publish.yml` with that existing tag.
+A tag push alone does not trigger this publishing workflow. Do not replace an
+already published version or move an existing release tag. Fix genuine defects
+in a new patch release. Signing is optional unless already configured reliably.
+
+The existing local `v0.1.0` tag predates the import migration and these workflow
+changes. Selecting it builds that historical source, not current `main`. This task
+does not retag or publish it; settle the intended release commit before publishing.
 
 ## Scope boundary
 

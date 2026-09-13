@@ -26,6 +26,10 @@ public API; compatibility changes will be recorded explicitly.
 
 ### Fixed
 
+- Restore PyPI Trusted Publishing on published non-prerelease GitHub Releases and
+  manual dispatch with a required existing tag. Verify tag/version/commit identity
+  and run uv quality, documentation, and build checks before the isolated OIDC upload.
+
 - Remove unnecessary-isinstance diagnostics by separating runtime validation of
   untyped configuration values from the typed configuration model.
 - Make response assignment and quick-start JSON narrowing explicit for static analyzers.
