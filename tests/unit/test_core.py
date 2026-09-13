@@ -6,8 +6,8 @@ import traceback
 import httpx
 import pytest
 
-from chile_open_data import ChileOpenDataClient, CKANClient, ClientConfig
-from chile_open_data.errors import (
+from chile_open_data_sdk import ChileOpenDataClient, CKANClient, ClientConfig
+from chile_open_data_sdk.errors import (
     CKANAPIError,
     CKANAuthenticationError,
     CKANAuthorizationError,

@@ -3,8 +3,8 @@
 import httpx
 from pytest_benchmark.fixture import BenchmarkFixture
 
-from chile_open_data._internal.responses import parse_response, redact
-from chile_open_data.types import JSONValue
+from chile_open_data_sdk._internal.responses import parse_response, redact
+from chile_open_data_sdk.types import JSONValue
 
 
 def test_parse_datastore_page(benchmark: BenchmarkFixture) -> None:

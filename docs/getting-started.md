@@ -7,7 +7,7 @@ are the supported test targets.
 ## First request
 
 ```python
-from chile_open_data import ChileOpenDataClient
+from chile_open_data_sdk import ChileOpenDataClient
 
 with ChileOpenDataClient() as client:
     result = client.actions.call("package_search", {"q": "transport", "rows": 5})

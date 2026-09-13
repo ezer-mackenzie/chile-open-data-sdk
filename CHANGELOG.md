@@ -5,6 +5,13 @@ public API; compatibility changes will be recorded explicitly.
 
 ## Unreleased
 
+### Changed
+
+- Rename the import package from `chile_open_data` to `chile_open_data_sdk` before
+  publication. Update imports, documentation, CI, coverage, and artifact validation.
+  The distribution remains `chile-open-data-sdk`; class names and behavior are unchanged.
+  No compatibility alias is provided. The original local v0.1.0 tag is preserved.
+
 ### Added
 
 - Strict BasedPyright checks shared with Pyright/Pylance, enforced in CI.

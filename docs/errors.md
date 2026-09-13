@@ -1,6 +1,6 @@
 # Error handling
 
-Import exceptions from `chile_open_data.errors`. `ChileOpenDataError` is the root;
+Import exceptions from `chile_open_data_sdk.errors`. `ChileOpenDataError` is the root;
 `CKANError` adds `action`, optional `status_code`, optional `error_type`, and
 sanitized `details`. The message is intentionally stable and does not echo raw
 server response bodies. Raw HTTPX requests/responses are not attached.
@@ -26,8 +26,8 @@ errors retain their type and sanitized payload. Unknown non-2xx statuses use
 `CKANHTTPError`. A successful HTTP status never overrides `success=false`.
 
 ```python
-from chile_open_data import ChileOpenDataClient
-from chile_open_data.errors import CKANError, CKANNotFoundError
+from chile_open_data_sdk import ChileOpenDataClient
+from chile_open_data_sdk.errors import CKANError, CKANNotFoundError
 
 try:
     with ChileOpenDataClient() as client:

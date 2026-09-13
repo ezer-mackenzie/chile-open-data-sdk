@@ -13,7 +13,7 @@ with finite numeric values. Unknown CKAN result fields are preserved.
 ## Catalog queries available through the generic API
 
 ```python
-from chile_open_data import ChileOpenDataClient
+from chile_open_data_sdk import ChileOpenDataClient
 
 with ChileOpenDataClient() as client:
     names = client.actions.call("package_list", {"limit": 5})

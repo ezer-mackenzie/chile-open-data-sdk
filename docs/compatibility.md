@@ -35,7 +35,10 @@ configuration is not used. The client supports JSON actions only.
 
 v0.1.0 is an alpha foundation, not a stable 1.x API contract. Breaking changes
 before 1.0 must be described in the changelog. Typed high-level workflows will be
-added in later milestones. The previous repository skeleton had no implemented
-SDK; the supported import is now `chile_open_data`, replacing the empty
-`chile_open_data_sdk` placeholder. Development moves from Poetry to uv and the
-minimum Python version moves from 3.14 to 3.11.
+added in later milestones. The supported import is `chile_open_data_sdk`, matching
+the distribution name
+`chile-open-data-sdk`. Development snapshots and the original local v0.1.0 tag
+used `chile_open_data`; update all imports to `chile_open_data_sdk`, including
+submodule imports such as `chile_open_data_sdk.errors`. No compatibility alias is
+provided because this naming change occurs before publication. Class names and
+behavior remain unchanged. Development uses uv and requires Python 3.11 or later.

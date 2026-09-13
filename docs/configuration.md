@@ -3,7 +3,7 @@
 `ClientConfig` is a frozen, typed dataclass. Pass it as `config=` to either client:
 
 ```python
-from chile_open_data import ChileOpenDataClient, ClientConfig
+from chile_open_data_sdk import ChileOpenDataClient, ClientConfig
 
 config = ClientConfig(read_timeout=60.0, max_connections=20, max_keepalive_connections=10)
 with ChileOpenDataClient(config=config) as client:
@@ -43,7 +43,7 @@ permissions beyond those assigned by the server.
 
 ```python
 import os
-from chile_open_data import ChileOpenDataClient
+from chile_open_data_sdk import ChileOpenDataClient
 
 with ChileOpenDataClient(api_token=os.environ["CHILE_OPEN_DATA_API_TOKEN"]) as client:
     result = client.actions.call("package_list", {"limit": 5})

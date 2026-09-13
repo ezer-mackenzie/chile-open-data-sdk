@@ -30,7 +30,7 @@ uv run pip-audit -r .cache/requirements-audit.txt
 ```
 
 Install the wheel and sdist into separate fresh virtual environments and import
-`chile_open_data` from outside the checkout. The CI build job demonstrates this.
+`chile_open_data_sdk` from outside the checkout. The CI build job demonstrates this.
 Run supported Python versions and the declared minimum dependencies as configured
 in CI. Review the audit findings rather than ignoring advisory IDs without cause.
 

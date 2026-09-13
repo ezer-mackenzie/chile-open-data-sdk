@@ -34,7 +34,7 @@ Repository = "https://github.com/ezer-mackenzie/chile-open-data-sdk"
 Issues = "https://github.com/ezer-mackenzie/chile-open-data-sdk/issues"
 
 [tool.uv.build-backend]
-module-name = "chile_open_data"
+module-name = "chile_open_data_sdk"
 source-include = ["docs/**", "tests/**", "examples/**", "scripts/**", "benchmarks/**", "pyrightconfig.json", ".pre-commit-config.yaml", "mkdocs.yml", "uv.lock", "CHANGELOG.md", "CONTRIBUTING.md", "SECURITY.md", "CODE_OF_CONDUCT.md"]
 
 [tool.ruff]
@@ -56,12 +56,12 @@ strict = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--strict-markers --cov=chile_open_data --cov-report=term-missing --cov-fail-under=90"
+addopts = "--strict-markers --cov=chile_open_data_sdk --cov-report=term-missing --cov-fail-under=90"
 markers = ["integration: opt-in read-only tests against the public portal"]
 
 [tool.coverage.run]
 branch = true
-source = ["chile_open_data"]
+source = ["chile_open_data_sdk"]
 
 [dependency-groups]
 benchmark = [

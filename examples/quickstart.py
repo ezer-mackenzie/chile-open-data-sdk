@@ -1,6 +1,6 @@
 """Search a small page of public dataset metadata."""
 
-from chile_open_data import ChileOpenDataClient
+from chile_open_data_sdk import ChileOpenDataClient
 
 
 def main() -> None:

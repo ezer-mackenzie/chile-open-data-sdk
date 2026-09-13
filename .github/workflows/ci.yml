@@ -54,12 +54,12 @@ jobs:
           uv venv /tmp/sdk-wheel
           uv pip install --python /tmp/sdk-wheel/bin/python dist/*.whl
           cd /tmp
-          /tmp/sdk-wheel/bin/python -c 'from chile_open_data import ChileOpenDataClient, __version__; assert __version__ == "0.1.0"; client = ChileOpenDataClient(); client.close()'
+          /tmp/sdk-wheel/bin/python -c 'from chile_open_data_sdk import ChileOpenDataClient, __version__; assert __version__ == "0.1.0"; client = ChileOpenDataClient(); client.close()'
           cd "$GITHUB_WORKSPACE"
           uv venv /tmp/sdk-sdist
           uv pip install --python /tmp/sdk-sdist/bin/python dist/*.tar.gz
           cd /tmp
-          /tmp/sdk-sdist/bin/python -c 'from chile_open_data import CKANClient, __version__; assert __version__ == "0.1.0"; client = CKANClient("https://example.test"); client.close()'
+          /tmp/sdk-sdist/bin/python -c 'from chile_open_data_sdk import CKANClient, __version__; assert __version__ == "0.1.0"; client = CKANClient("https://example.test"); client.close()'
       - uses: actions/upload-artifact@v4
         with:
           name: distributions

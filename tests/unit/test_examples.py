@@ -5,7 +5,7 @@ from pathlib import Path
 
 import httpx
 
-from chile_open_data import ChileOpenDataClient
+from chile_open_data_sdk import ChileOpenDataClient
 
 
 def test_quickstart(monkeypatch, capsys):
@@ -18,7 +18,7 @@ def test_quickstart(monkeypatch, capsys):
     def make_client():
         return ChileOpenDataClient(transport=httpx.MockTransport(handler))
 
-    monkeypatch.setattr("chile_open_data.ChileOpenDataClient", make_client)
+    monkeypatch.setattr("chile_open_data_sdk.ChileOpenDataClient", make_client)
     runpy.run_path(
         str(Path(__file__).parents[2] / "examples" / "quickstart.py"), run_name="__main__"
     )

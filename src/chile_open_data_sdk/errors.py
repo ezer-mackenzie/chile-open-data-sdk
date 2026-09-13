@@ -1,6 +1,6 @@
 """SDK exceptions with safe action context; raw requests and responses are not retained."""
 
-from chile_open_data.types import JSONValue
+from chile_open_data_sdk.types import JSONValue
 
 
 class ChileOpenDataError(Exception):

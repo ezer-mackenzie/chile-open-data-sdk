@@ -6,7 +6,7 @@ from typing import cast
 import httpx
 from pydantic import BaseModel, ConfigDict, JsonValue, StrictBool, ValidationError
 
-from chile_open_data.errors import (
+from chile_open_data_sdk.errors import (
     CKANAPIError,
     CKANAuthenticationError,
     CKANAuthorizationError,
@@ -17,7 +17,7 @@ from chile_open_data.errors import (
     CKANRateLimitError,
     CKANValidationError,
 )
-from chile_open_data.types import JSONValue
+from chile_open_data_sdk.types import JSONValue
 
 
 class ActionResponse(BaseModel):

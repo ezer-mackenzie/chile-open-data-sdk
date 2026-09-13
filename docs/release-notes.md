@@ -12,10 +12,13 @@ redirected.
 
 ## Compatibility and migration
 
-Python 3.11–3.14 are the test targets. The import is `chile_open_data`, while the
+Python 3.11–3.14 are the test targets. The import is `chile_open_data_sdk`, while the
 distribution remains `chile-open-data-sdk`. The repository's former empty package
 and Poetry configuration are replaced by a uv-managed `src/` package. There is no
-previous implemented SDK API to migrate.
+previous published SDK API to migrate. If using an earlier local checkout,
+replace `chile_open_data` imports with `chile_open_data_sdk`. The original local
+v0.1.0 tag predates this migration and remains unchanged; these notes describe the
+current pre-publication source.
 
 ## Known limitations
 

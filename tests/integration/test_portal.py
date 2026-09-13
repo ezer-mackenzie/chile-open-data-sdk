@@ -4,7 +4,7 @@ import os
 
 import pytest
 
-from chile_open_data import ChileOpenDataClient
+from chile_open_data_sdk import ChileOpenDataClient
 
 
 @pytest.mark.integration

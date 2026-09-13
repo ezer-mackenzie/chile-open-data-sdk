@@ -13,9 +13,9 @@ def main() -> None:
     assert len(wheels) == len(sdists) == 1, "Expected exactly one wheel and one sdist"
     with zipfile.ZipFile(wheels[0]) as wheel:
         names = wheel.namelist()
-        assert "chile_open_data/__init__.py" in names
-        assert "chile_open_data/py.typed" in names
-        assert not any(name.startswith("chile_open_data_sdk/") for name in names)
+        assert "chile_open_data_sdk/__init__.py" in names
+        assert "chile_open_data_sdk/py.typed" in names
+        assert not any(name.startswith("chile_open_data/") for name in names)
         metadata = BytesParser().parsebytes(
             wheel.read(next(n for n in names if n.endswith("/METADATA")))
         )
@@ -27,7 +27,7 @@ def main() -> None:
     with tarfile.open(sdists[0]) as sdist:
         names = sdist.getnames()
         for suffix in (
-            "/src/chile_open_data/py.typed",
+            "/src/chile_open_data_sdk/py.typed",
             "/pyproject.toml",
             "/README.md",
             "/LICENSE.md",
@@ -37,6 +37,7 @@ def main() -> None:
             "/uv.lock",
         ):
             assert any(name.endswith(suffix) for name in names), suffix
+        assert not any("/src/chile_open_data/" in name for name in names)
         assert not any("/.cache/" in name or "/.venv/" in name for name in names)
     print("Wheel and sdist metadata, source contents, license, and py.typed verified.")
 

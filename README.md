@@ -36,12 +36,12 @@ After v0.1.0 is published, installation will be:
 python -m pip install chile-open-data-sdk==0.1.0
 ```
 
-The distribution is `chile-open-data-sdk`; the import is `chile_open_data`.
+The distribution is `chile-open-data-sdk`; the import is `chile_open_data_sdk`.
 
 ## Quick start
 
 ```python
-from chile_open_data import ChileOpenDataClient
+from chile_open_data_sdk import ChileOpenDataClient
 
 with ChileOpenDataClient() as client:
     result = client.actions.call("package_search", {"q": "transport", "rows": 5})
@@ -59,7 +59,7 @@ metadata quality depend on the upstream portal.
 ## Another CKAN site
 
 ```python
-from chile_open_data import CKANClient
+from chile_open_data_sdk import CKANClient
 
 with CKANClient(site_url="https://demo.ckan.org") as client:
     print(client.actions.call("package_list", {"limit": 5}))
@@ -73,8 +73,8 @@ constructor does not read environment credentials. Your application can do so:
 ```python
 import os
 
-from chile_open_data import ChileOpenDataClient
-from chile_open_data.errors import CKANError
+from chile_open_data_sdk import ChileOpenDataClient
+from chile_open_data_sdk.errors import CKANError
 
 try:
     with ChileOpenDataClient(api_token=os.environ.get("CHILE_OPEN_DATA_API_TOKEN")) as client:

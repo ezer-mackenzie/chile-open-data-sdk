@@ -31,4 +31,4 @@ Synchronous code never starts an event loop.
 
 Dependency management and builds use uv and uv_build. `uv.lock` records the full
 development resolution; wheel metadata uses runtime ranges. The package includes
-`py.typed`. The distribution and import names intentionally differ.
+`py.typed`. The distribution is `chile-open-data-sdk` and the import is `chile_open_data_sdk`.

@@ -8,10 +8,10 @@ from typing import Self
 
 import httpx
 
-from chile_open_data._internal.responses import parse_response, redact
-from chile_open_data.config import ClientConfig
-from chile_open_data.errors import CKANConnectionError, CKANError, CKANTimeoutError
-from chile_open_data.types import JSONValue
+from chile_open_data_sdk._internal.responses import parse_response, redact
+from chile_open_data_sdk.config import ClientConfig
+from chile_open_data_sdk.errors import CKANConnectionError, CKANError, CKANTimeoutError
+from chile_open_data_sdk.types import JSONValue
 
 
 class ActionService:
