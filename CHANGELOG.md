@@ -14,6 +14,10 @@ public API; compatibility changes will be recorded explicitly.
 
 ### Added
 
+- Optional BenchCore 1.x integration for Python 3.12+, with two explicitly selected
+  CPU benchmarks, JSON report persistence, and a manual reports workflow. SDK and
+  default development support remain Python 3.11+.
+
 - Strict BasedPyright checks shared with Pyright/Pylance, enforced in CI.
 - Local pre-commit hooks for Ruff, formatting, mypy, BasedPyright, and offline tests.
 - Hypothesis property tests for arbitrary JSON results and immutable secret redaction.

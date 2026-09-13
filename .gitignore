@@ -156,3 +156,4 @@ env.yaml
 pytest-cache-files-*/
 requirements-audit.txt
 .benchmarks/
+.benchcore/

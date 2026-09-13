@@ -68,6 +68,12 @@ Hypothesis property tests run as part of normal pytest. Benchmarks are opt-in:
 uv run --group benchmark pytest benchmarks --no-cov --benchmark-only
 ```
 
+BenchCore reports are also available on Python 3.12+:
+
+```console
+uv run --group benchcore pytest benchmarks/benchcore_cases.py --no-cov --benchcore-save=.benchcore
+```
+
 See [Development tools](docs/development.md) for scope, rationale, and commands.
 
 ## Changes and review

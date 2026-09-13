@@ -64,6 +64,9 @@ branch = true
 source = ["chile_open_data_sdk"]
 
 [dependency-groups]
+benchcore = [
+    "benchcore[pytest]>=1.0.0,<2",
+]
 benchmark = [
     "pytest-benchmark>=5.3.0",
 ]
@@ -81,3 +84,6 @@ docs = [
     "mkdocs-material>=9.7.7",
     "mkdocstrings[python]>=1.0.6",
 ]
+
+[tool.uv.dependency-groups]
+benchcore = { requires-python = ">=3.12" }

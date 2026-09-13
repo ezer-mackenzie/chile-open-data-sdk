@@ -3,7 +3,8 @@ revision = 3
 requires-python = ">=3.11"
 resolution-markers = [
     "python_full_version >= '3.15'",
-    "python_full_version < '3.15'",
+    "python_full_version >= '3.12' and python_full_version < '3.15'",
+    "python_full_version < '3.12'",
 ]
 
 [[package]]
@@ -124,6 +125,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/38/ee/8d0b6806338b13526303cf72754351221a32cdb80ab56dcf2c91d6b1ea57/basedpyright-1.40.1.tar.gz", hash = "sha256:da1c9913b6d169340a0dbb6df76ea97f476ccb697da8f92659ac46032f6d2ce8", size = 25131254, upload-time = "2026-09-10T23:17:24.559Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b2/84/c1e1e845d0453253a98d1ba188d68597f0ba7e552eeabea514d9395d418a/basedpyright-1.40.1-py3-none-any.whl", hash = "sha256:222dc0382caf9816eb23a27cb7059fa96356ddc500b3b7b306072848fd650244", size = 13689276, upload-time = "2026-09-10T23:17:20.322Z" },
+]
+
+[[package]]
+name = "benchcore"
+version = "1.0.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e9/04/cae27320a185d6fb90629eba961ee24b9219df2d3c7d519b5f0498c8a1d6/benchcore-1.0.0.tar.gz", hash = "sha256:a77d6b0f5bd4c28c17bda25f7ed5ca77b19621d9179bbf3d5c6ffe4e4339b13e", size = 22836, upload-time = "2026-07-23T22:03:03.109Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b3/41/fd1185e6f27f782726678eac3d23f533d32e441d10060302685bf48ce887/benchcore-1.0.0-py3-none-any.whl", hash = "sha256:767c0e58a2109dedb5c606082e8562d35bc09de3c55566cf1e3e15bb16abdc64", size = 32705, upload-time = "2026-07-23T22:03:01.734Z" },
+]
+
+[package.optional-dependencies]
+pytest = [
+    { name = "pytest" },
 ]
 
 [[package]]
@@ -328,6 +343,9 @@ dependencies = [
 ]
 
 [package.dev-dependencies]
+benchcore = [
+    { name = "benchcore", extra = ["pytest"], marker = "python_full_version >= '3.12'" },
+]
 benchmark = [
     { name = "pytest-benchmark" },
 ]
@@ -353,6 +371,7 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
+benchcore = [{ name = "benchcore", extras = ["pytest"], marker = "python_full_version >= '3.12'", specifier = ">=1.0.0,<2" }]
 benchmark = [{ name = "pytest-benchmark", specifier = ">=5.3.0" }]
 dev = [
     { name = "basedpyright", specifier = ">=1.40.1" },

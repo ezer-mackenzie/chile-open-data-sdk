@@ -13,7 +13,8 @@ changes. Use the project's `.venv` interpreter in your editor.
 | Hypothesis | Generated JSON and redaction invariants | Included in normal pytest |
 | pre-commit | Run checks before committing | `uv run pre-commit install` |
 | pip-audit | Known dependency vulnerabilities | See the release guide |
-| pytest-benchmark | Optional local CPU measurements | See below |
+| pytest-benchmark | Optional local CPU measurements, Python 3.11+ | See below |
+| BenchCore | Optional typed measurements and JSON reports, Python 3.12+ | See below |
 
 ## Type validation and editor diagnostics
 
@@ -58,6 +59,8 @@ failing examples live in the ignored `.hypothesis/` directory.
 
 ## Benchmarks
 
+### pytest-benchmark
+
 The optional `benchmark` dependency group installs pytest-benchmark. Benchmarks
 are outside pytest's normal `tests/` discovery and make no network requests:
 
@@ -73,7 +76,54 @@ machine and stored in ignored `.benchmarks/`; compare on the same machine and
 interpreter under similar load. These are observations, not performance promises
 or fixed CI timing gates. Normal CI does not run the benchmark group.
 
-References: [Ruff rules](https://docs.astral.sh/ruff/rules/),
+### BenchCore
+
+BenchCore 1.x is installed through a separate optional development group. It
+requires Python 3.12 or later; this does not raise the SDK's Python 3.11 minimum.
+uv rejects selecting this group with an incompatible interpreter rather than
+silently leaving out the requested tool. The package wheel does not depend on
+BenchCore or either benchmarking integration.
+
+Run on Python 3.12+ in an isolated project environment if you want to preserve
+your main development interpreter. For example, in PowerShell:
+
+```powershell
+$env:UV_PROJECT_ENVIRONMENT = ".cache/benchcore-env"
+uv run --python 3.12 --group benchcore pytest benchmarks/benchcore_cases.py --no-cov --benchcore-save=.benchcore
+Remove-Item Env:UV_PROJECT_ENVIRONMENT
+```
+
+With an existing Python 3.12+ development environment, simply run:
+
+```console
+uv run --locked --group benchcore pytest benchmarks/benchcore_cases.py --no-cov --benchcore-save=.benchcore
+```
+
+The two cases measure the same workloads as the pytest-benchmark suite, using
+20 measured rounds, two warmup rounds, and 10 iterations per round. Setup happens
+before measurement; assertions inspect `BenchmarkResult.value` after measurement.
+There are no network calls, timing assertions, or performance release gates.
+
+`benchcore_cases.py` is deliberately named outside pytest's `test_*.py` convention
+and must be selected explicitly. Consequently ordinary tests and the existing
+`pytest benchmarks --benchmark-only` command do not require BenchCore, even on
+Python 3.11. Use the `BenchCoreFixture` fixture for these cases; BenchCore is not
+a drop-in replacement for pytest-benchmark's `benchmark` fixture.
+
+`--benchcore-save` writes schema-validated JSON reports into ignored `.benchcore/`.
+Report identities include workload sizes. Save distinct output directories for
+runs you want to compare; saving the same names in one directory replaces their
+previous reports. Compare only compatible environments using BenchCore's report
+comparison API; do not interpret a single timing difference as statistical proof.
+
+The **BenchCore reports** GitHub Actions workflow runs only on manual dispatch
+and uploads the JSON reports. It does not run on normal pull requests or publish
+a release. Hosted runners vary in load, so those reports are diagnostic artifacts,
+not a stable performance baseline. This workflow is configured locally; a remote
+execution is a separate action.
+
+References: [BenchCore 1.0.0](https://pypi.org/project/benchcore/1.0.0/),
+[Ruff rules](https://docs.astral.sh/ruff/rules/),
 [BasedPyright configuration](https://docs.basedpyright.com/latest/configuration/config-files/),
 [Hypothesis](https://hypothesis.readthedocs.io/en/latest/quickstart.html),
 [pre-commit](https://pre-commit.com/), and
