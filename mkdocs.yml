@@ -1,0 +1,32 @@
+site_name: Chile Open Data SDK
+site_description: Unofficial Chile-first CKAN Python SDK
+repo_url: https://github.com/ezer-mackenzie/chile-open-data-sdk
+strict: true
+theme:
+  name: material
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_source: false
+            show_signature_annotations: true
+            members_order: source
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Generic actions: actions.md
+  - Configuration: configuration.md
+  - Errors: errors.md
+  - API reference: api.md
+  - Architecture: architecture.md
+  - Compatibility: compatibility.md
+  - Roadmap: roadmap.md
+  - Releasing: releasing.md
+  - Release notes: release-notes.md
+  - Release validation: release-validation.md

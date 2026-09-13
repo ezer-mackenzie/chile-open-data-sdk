@@ -1,45 +1,76 @@
 name: CI
-
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
-
+    branches: [main]
+permissions:
+  contents: read
 jobs:
   test:
-    name: Test on Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ["3.12", "3.13"]
-
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install Poetry
-        run: pipx install poetry
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v6
         with:
+          version: "0.12.13"
           python-version: ${{ matrix.python-version }}
-          cache: "poetry"
-
-      - name: Install dependencies
-        run: poetry install
-
-      - name: Run Ruff Linter
-        run: poetry run ruff check .
-
-      - name: Run MyPy Type Check
-        run: poetry run mypy src
-
-      - name: Run Pytest
-        run: poetry run pytest --cov=chileatiende_sdk --cov-report=xml
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+      - run: uv sync --locked
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy src
+      - run: uv run pytest
+  minimum-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
         with:
-          file: ./coverage.xml
-          fail_ci_if_error: false
+          version: "0.12.13"
+          python-version: "3.11"
+      - run: uv sync --locked
+      - run: uv pip install httpx==0.28.1 pydantic==2.12.0
+      - run: uv run --no-sync pytest
+  documentation-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.13"
+          python-version: "3.12"
+      - run: uv sync --locked --group docs
+      - run: uv run --group docs mkdocs build --strict
+      - run: uv build
+      - run: uv run python scripts/check_artifacts.py
+      - name: Install each artifact in a clean environment
+        shell: bash
+        run: |
+          uv venv /tmp/sdk-wheel
+          uv pip install --python /tmp/sdk-wheel/bin/python dist/*.whl
+          cd /tmp
+          /tmp/sdk-wheel/bin/python -c 'from chile_open_data import ChileOpenDataClient, __version__; assert __version__ == "0.1.0"; client = ChileOpenDataClient(); client.close()'
+          cd "$GITHUB_WORKSPACE"
+          uv venv /tmp/sdk-sdist
+          uv pip install --python /tmp/sdk-sdist/bin/python dist/*.tar.gz
+          cd /tmp
+          /tmp/sdk-sdist/bin/python -c 'from chile_open_data import CKANClient, __version__; assert __version__ == "0.1.0"; client = CKANClient("https://example.test"); client.close()'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distributions
+          path: dist/
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.13"
+          python-version: "3.12"
+      - run: uv sync --locked
+      - run: uv export --locked --no-dev --no-emit-project --format requirements-txt --output-file requirements-audit.txt
+      - run: uv run pip-audit -r requirements-audit.txt
