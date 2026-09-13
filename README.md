@@ -45,8 +45,9 @@ from chile_open_data import ChileOpenDataClient
 
 with ChileOpenDataClient() as client:
     result = client.actions.call("package_search", {"q": "transport", "rows": 5})
-    if isinstance(result, dict) and isinstance(result.get("results"), list):
-        for dataset in result["results"]:
+    datasets = result.get("results") if isinstance(result, dict) else None
+    if isinstance(datasets, list):
+        for dataset in datasets:
             if isinstance(dataset, dict):
                 print(dataset.get("title"))
 ```
@@ -94,6 +95,7 @@ representations exclude the configured token; do not log raw payloads or credent
 - [Configuration and authentication](docs/configuration.md)
 - [Error handling](docs/errors.md)
 - [Public API reference](docs/api.md)
+- [Development tools and benchmarks](docs/development.md)
 - [Architecture](docs/architecture.md)
 - [Compatibility and limitations](docs/compatibility.md)
 - [Roadmap](docs/roadmap.md)
@@ -112,6 +114,7 @@ uv sync --locked --group docs
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy src
+uv run basedpyright
 uv run pytest
 uv run --group docs mkdocs build --strict
 uv build

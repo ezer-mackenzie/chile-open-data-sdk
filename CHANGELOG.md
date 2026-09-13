@@ -5,7 +5,21 @@ public API; compatibility changes will be recorded explicitly.
 
 ## Unreleased
 
-No changes yet.
+### Added
+
+- Strict BasedPyright checks shared with Pyright/Pylance, enforced in CI.
+- Local pre-commit hooks for Ruff, formatting, mypy, BasedPyright, and offline tests.
+- Hypothesis property tests for arbitrary JSON results and immutable secret redaction.
+- Optional pytest-benchmark group with network-free response and redaction benchmarks.
+- Additional Ruff rules for security, comprehensions, logging, datetime usage, and debugging.
+
+### Fixed
+
+- Remove unnecessary-isinstance diagnostics by separating runtime validation of
+  untyped configuration values from the typed configuration model.
+- Make response assignment and quick-start JSON narrowing explicit for static analyzers.
+
+These changes follow the local v0.1.0 checkpoint; the existing tag is not moved.
 
 ## 0.1.0
 

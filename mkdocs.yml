@@ -24,6 +24,7 @@ nav:
   - Configuration: configuration.md
   - Errors: errors.md
   - API reference: api.md
+  - Development tools: development.md
   - Architecture: architecture.md
   - Compatibility: compatibility.md
   - Roadmap: roadmap.md

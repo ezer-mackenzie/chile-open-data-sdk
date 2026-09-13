@@ -38,7 +38,7 @@ class ActionService:
         except (TypeError, ValueError):
             raise ValueError("data must be a JSON-compatible mapping with finite numbers") from None
         # Suppress raw HTTPX exception messages and chains, which can contain credentials.
-        failure: CKANError | None = None
+        failure: CKANError
         try:
             response = self._http.post(
                 self._config.action_url + "/" + action, content=payload.encode("utf-8")
@@ -47,9 +47,9 @@ class ActionService:
             failure = CKANTimeoutError("CKAN request timed out", action=safe_action)
         except httpx.RequestError:
             failure = CKANConnectionError("CKAN request could not complete", action=safe_action)
-        if failure is not None:
-            raise failure
-        return parse_response(response, safe_action, self._config.api_token)
+        else:
+            return parse_response(response, safe_action, self._config.api_token)
+        raise failure
 
 
 class CKANClient:

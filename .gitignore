@@ -155,3 +155,4 @@ env.yaml
 .ruff_cache/
 pytest-cache-files-*/
 requirements-audit.txt
+.benchmarks/

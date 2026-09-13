@@ -1,0 +1,33 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: Ruff lint
+        entry: uv run --locked ruff check .
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: ruff-format
+        name: Ruff format check
+        entry: uv run --locked ruff format --check .
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: mypy
+        name: Mypy strict
+        entry: uv run --locked mypy src
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: basedpyright
+        name: BasedPyright strict
+        entry: uv run --locked basedpyright
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: pytest
+        name: Offline tests and coverage
+        entry: uv run --locked pytest
+        language: system
+        pass_filenames: false
+        always_run: true

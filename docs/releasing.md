@@ -20,6 +20,7 @@ uv lock --check
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy src
+uv run basedpyright
 uv run pytest
 uv run --group docs mkdocs build --strict
 uv build

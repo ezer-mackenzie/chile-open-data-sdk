@@ -23,6 +23,7 @@ jobs:
       - run: uv run ruff check .
       - run: uv run ruff format --check .
       - run: uv run mypy src
+      - run: uv run basedpyright
       - run: uv run pytest
   minimum-dependencies:
     runs-on: ubuntu-latest

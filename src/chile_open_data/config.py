@@ -3,7 +3,19 @@
 import re
 from dataclasses import dataclass, field
 from math import isfinite
+from typing import TypeGuard
 from urllib.parse import urlsplit
+
+
+def _is_connection_limit(value: object) -> TypeGuard[int]:
+    """Narrow untrusted runtime input to an integer, excluding booleans."""
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
+def _validate_tls_verification(value: object) -> None:
+    """Reject untyped inputs that could accidentally disable TLS verification."""
+    if not isinstance(value, bool):
+        raise ValueError("verify must be a boolean")
 
 
 @dataclass(frozen=True, slots=True)
@@ -62,11 +74,9 @@ class ClientConfig:
             if isinstance(value, bool) or not isfinite(value) or value <= 0:
                 raise ValueError("Timeouts must be finite positive seconds")
         if (
-            isinstance(self.max_connections, bool)
-            or not isinstance(self.max_connections, int)
+            not _is_connection_limit(self.max_connections)
             or self.max_connections < 1
-            or isinstance(self.max_keepalive_connections, bool)
-            or not isinstance(self.max_keepalive_connections, int)
+            or not _is_connection_limit(self.max_keepalive_connections)
             or not 0 <= self.max_keepalive_connections <= self.max_connections
         ):
             raise ValueError("Connection limits must be integers with 0 <= keepalive <= maximum")
@@ -75,8 +85,7 @@ class ClientConfig:
                 not header_value or any(ord(c) < 32 or ord(c) > 126 for c in header_value)
             ):
                 raise ValueError("Header values must be nonempty printable ASCII")
-        if not isinstance(self.verify, bool):
-            raise ValueError("verify must be a boolean")
+        _validate_tls_verification(self.verify)
 
     @property
     def action_url(self) -> str:

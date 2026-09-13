@@ -35,14 +35,20 @@ Issues = "https://github.com/ezer-mackenzie/chile-open-data-sdk/issues"
 
 [tool.uv.build-backend]
 module-name = "chile_open_data"
-source-include = ["docs/**", "tests/**", "examples/**", "scripts/**", "mkdocs.yml", "uv.lock", "CHANGELOG.md", "CONTRIBUTING.md", "SECURITY.md", "CODE_OF_CONDUCT.md"]
+source-include = ["docs/**", "tests/**", "examples/**", "scripts/**", "benchmarks/**", "pyrightconfig.json", ".pre-commit-config.yaml", "mkdocs.yml", "uv.lock", "CHANGELOG.md", "CONTRIBUTING.md", "SECURITY.md", "CODE_OF_CONDUCT.md"]
 
 [tool.ruff]
 target-version = "py311"
 line-length = 100
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B"]
+select = ["E", "F", "I", "UP", "B", "C4", "DTZ", "LOG", "PIE", "RUF", "S", "T10"]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests deliberately use assertions and synthetic credentials.
+"tests/**" = ["S101", "S105", "S106"]
+"benchmarks/**" = ["S101", "S105", "S106"]
+"scripts/check_artifacts.py" = ["S101"]
 
 [tool.mypy]
 python_version = "3.11"
@@ -58,9 +64,15 @@ branch = true
 source = ["chile_open_data"]
 
 [dependency-groups]
+benchmark = [
+    "pytest-benchmark>=5.3.0",
+]
 dev = [
+    "basedpyright>=1.40.1",
+    "hypothesis>=6.168.0",
     "mypy>=2.3.1",
     "pip-audit>=2.10.1",
+    "pre-commit>=4.6.2",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "ruff>=0.16.7",

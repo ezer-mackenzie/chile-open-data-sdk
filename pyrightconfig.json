@@ -1,0 +1,22 @@
+{
+  "include": [
+    "src",
+    "examples",
+    "scripts"
+  ],
+  "exclude": [
+    ".cache",
+    ".venv",
+    "build",
+    "dist",
+    "site"
+  ],
+  "extraPaths": [
+    "src"
+  ],
+  "pythonVersion": "3.11",
+  "typeCheckingMode": "strict",
+  "reportUnnecessaryIsInstance": "error",
+  "venvPath": ".",
+  "venv": ".venv"
+}

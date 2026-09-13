@@ -22,6 +22,7 @@ optional integrations must remain optional. No global Python tooling is required
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy src
+uv run basedpyright
 uv run pytest
 ```
 
@@ -44,6 +45,30 @@ uv run pytest tests/integration --no-cov
 
 On POSIX shells use `CHILE_OPEN_DATA_LIVE_TESTS=1 uv run pytest tests/integration --no-cov`.
 Live availability is not a normal pull-request requirement.
+
+## Local hooks and extended tests
+
+Ruff handles both linting and formatting. Mypy checks the SDK in strict mode;
+BasedPyright also checks SDK code, examples, and packaging scripts, using a shared
+`pyrightconfig.json` understood by Pyright/Pylance. Select the project's `.venv`
+interpreter in your editor. The unnecessary-isinstance diagnostic stays enabled.
+
+Install the repository-local hooks after syncing the environment:
+
+```console
+uv run pre-commit install
+uv run pre-commit run --all-files
+```
+
+Hooks run the locked uv tools, including offline tests, before commits. They check
+formatting without modifying files. Format explicitly with `uv run ruff format .`.
+Hypothesis property tests run as part of normal pytest. Benchmarks are opt-in:
+
+```console
+uv run --group benchmark pytest benchmarks --no-cov --benchmark-only
+```
+
+See [Development tools](docs/development.md) for scope, rationale, and commands.
 
 ## Changes and review
 
