@@ -16,9 +16,14 @@ Python 3.11–3.14 are the test targets. The import is `chile_open_data_sdk`, wh
 distribution remains `chile-open-data-sdk`. The repository's former empty package
 and Poetry configuration are replaced by a uv-managed `src/` package. There is no
 previous published SDK API to migrate. If using an earlier local checkout,
-replace `chile_open_data` imports with `chile_open_data_sdk`. The original local
-v0.1.0 tag predates this migration and remains unchanged; these notes describe the
-current pre-publication source.
+replace `chile_open_data` imports with `chile_open_data_sdk`. These notes describe the current source; inspect the selected release tag
+to confirm which changes it includes.
+
+Response parsing, redaction, envelope models, validators, services, and exceptions
+are public APIs with package-root exports. Shared constants and JSON aliases live
+in dedicated modules. Earlier `_internal.responses` imports must migrate to
+`chile_open_data_sdk.responses`; `ActionResponse` lives in `models`.
+Repository agent guidance is documented in AGENTS.md and CLAUDE.md.
 
 ## Known limitations
 

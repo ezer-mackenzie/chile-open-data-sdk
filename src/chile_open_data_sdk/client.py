@@ -8,9 +8,10 @@ from typing import Self
 
 import httpx
 
-from chile_open_data_sdk._internal.responses import parse_response, redact
 from chile_open_data_sdk.config import ClientConfig
+from chile_open_data_sdk.constants import ACTION_NAME_PATTERN, DEFAULT_SITE_URL
 from chile_open_data_sdk.errors import CKANConnectionError, CKANError, CKANTimeoutError
+from chile_open_data_sdk.responses import parse_response, redact
 from chile_open_data_sdk.types import JSONValue
 
 
@@ -28,7 +29,7 @@ class ActionService:
         may mutate server data: choose actions and credentials deliberately.
         Unsupported payload values raise ValueError before any network request.
         """
-        if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*", action):
+        if not re.fullmatch(ACTION_NAME_PATTERN, action):
             raise ValueError("action must be a CKAN action identifier")
         safe_action = str(redact(action, self._config.api_token))
         if self._http.is_closed:
@@ -135,7 +136,7 @@ class ChileOpenDataClient(CKANClient):
         transport: httpx.BaseTransport | None = None,
     ) -> None:
         super().__init__(
-            site_url="https://datos.gob.cl" if config is None and site_url is None else site_url,
+            site_url=DEFAULT_SITE_URL if config is None and site_url is None else site_url,
             api_token=api_token,
             config=config,
             transport=transport,

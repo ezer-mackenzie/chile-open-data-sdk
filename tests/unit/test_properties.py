@@ -7,7 +7,7 @@ import httpx
 from hypothesis import given
 from hypothesis import strategies as st
 
-from chile_open_data_sdk._internal.responses import parse_response, redact
+from chile_open_data_sdk.responses import parse_response, redact
 from chile_open_data_sdk.types import JSONValue
 
 json_values = st.recursive(

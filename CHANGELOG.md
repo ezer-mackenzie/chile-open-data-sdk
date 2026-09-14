@@ -7,12 +7,20 @@ public API; compatibility changes will be recorded explicitly.
 
 ### Changed
 
+- Replace `_internal.responses` with public `responses` and `models` modules.
+  Export services, helpers, validators, models, JSON aliases, and exceptions at
+  the package root. Move defaults and immutable error maps to `constants`.
+  Direct parser calls now redact configured tokens from diagnostic action names.
+  Previous private imports must migrate; no private-path alias is retained.
+
 - Rename the import package from `chile_open_data` to `chile_open_data_sdk` before
   publication. Update imports, documentation, CI, coverage, and artifact validation.
   The distribution remains `chile-open-data-sdk`; class names and behavior are unchanged.
-  No compatibility alias is provided. The original local v0.1.0 tag is preserved.
+  No compatibility alias is provided.
 
 ### Added
+
+- Repository agent guides in AGENTS.md and CLAUDE.md and expanded public API reference.
 
 - Optional BenchCore 1.x integration for Python 3.12+, with two explicitly selected
   CPU benchmarks, JSON report persistence, and a manual reports workflow. SDK and

@@ -5,8 +5,10 @@ The foundation is small enough to keep network execution in `client.py`.
 `ChileOpenDataClient` only supplies a default site. `ClientConfig` validates
 immutable options independently of network I/O.
 
-The `_internal.responses` module handles Pydantic v2 envelope validation, error
-mapping, and recursive diagnostic redaction without executing requests. It can be
+The public `responses` module handles error mapping and recursive diagnostic
+redaction without executing requests. `models` contains the Pydantic v2 envelope,
+`constants` centralizes defaults and immutable error maps, and `validation` exposes
+runtime setting validators. It can be
 reused by the future asynchronous transport. Public JSON values use a recursive
 type alias, while future entity models will preserve CKAN extension fields.
 

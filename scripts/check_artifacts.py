@@ -15,6 +15,9 @@ def main() -> None:
         names = wheel.namelist()
         assert "chile_open_data_sdk/__init__.py" in names
         assert "chile_open_data_sdk/py.typed" in names
+        for module in ("responses", "models", "constants", "types", "validation"):
+            assert f"chile_open_data_sdk/{module}.py" in names
+        assert not any("/_internal/" in name for name in names)
         assert not any(name.startswith("chile_open_data/") for name in names)
         metadata = BytesParser().parsebytes(
             wheel.read(next(n for n in names if n.endswith("/METADATA")))
@@ -29,6 +32,8 @@ def main() -> None:
         for suffix in (
             "/src/chile_open_data_sdk/py.typed",
             "/pyproject.toml",
+            "/AGENTS.md",
+            "/CLAUDE.md",
             "/README.md",
             "/LICENSE.md",
             "/docs/getting-started.md",

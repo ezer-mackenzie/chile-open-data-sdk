@@ -17,8 +17,8 @@ not cancel an in-progress publication.
 ## Prepare a reviewable checkpoint
 
 1. Inspect `git status` and recent history. Preserve existing user changes.
-2. Keep the version synchronized in `pyproject.toml`, `__init__.py`, the default
-   user agent, artifact checks, and version-specific installation examples.
+2. Keep the version synchronized in `pyproject.toml`, `constants.SDK_VERSION`,
+   artifact checks, and version-specific installation examples.
 3. Update CHANGELOG, release notes, compatibility limits, and the validation record.
 4. Run the checks below and inspect the diff. Never tag a failing checkpoint.
 5. Commit coherent work using Conventional Commits and approved coauthor trailers.
@@ -75,9 +75,8 @@ A tag push alone does not trigger this publishing workflow. Do not replace an
 already published version or move an existing release tag. Fix genuine defects
 in a new patch release. Signing is optional unless already configured reliably.
 
-The existing local `v0.1.0` tag predates the import migration and these workflow
-changes. Selecting it builds that historical source, not current `main`. This task
-does not retag or publish it; settle the intended release commit before publishing.
+Always inspect the selected tag before publishing: subsequent commits on `main`
+are not included in an existing tag. Do not assume a tag points to current HEAD.
 
 ## Scope boundary
 

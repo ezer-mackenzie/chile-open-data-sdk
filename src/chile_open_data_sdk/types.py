@@ -3,3 +3,8 @@
 from typing import TypeAlias
 
 JSONValue: TypeAlias = bool | int | float | str | list["JSONValue"] | dict[str, "JSONValue"] | None
+
+JSONObject: TypeAlias = dict[str, JSONValue]
+"""A JSON object with string keys and recursively typed values."""
+
+__all__ = ["JSONObject", "JSONValue"]

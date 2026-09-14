@@ -5,7 +5,7 @@ import pytest
 from benchcore.core.models import BenchmarkConfig
 from benchcore.integrations.pytest import BenchCoreFixture
 
-from chile_open_data_sdk._internal.responses import parse_response, redact
+from chile_open_data_sdk.responses import parse_response, redact
 from chile_open_data_sdk.types import JSONValue
 
 

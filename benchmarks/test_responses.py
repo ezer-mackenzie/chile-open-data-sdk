@@ -3,7 +3,7 @@
 import httpx
 from pytest_benchmark.fixture import BenchmarkFixture
 
-from chile_open_data_sdk._internal.responses import parse_response, redact
+from chile_open_data_sdk.responses import parse_response, redact
 from chile_open_data_sdk.types import JSONValue
 
 

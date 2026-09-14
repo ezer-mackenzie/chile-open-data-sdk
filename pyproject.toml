@@ -35,7 +35,7 @@ Issues = "https://github.com/ezer-mackenzie/chile-open-data-sdk/issues"
 
 [tool.uv.build-backend]
 module-name = "chile_open_data_sdk"
-source-include = ["docs/**", "tests/**", "examples/**", "scripts/**", "benchmarks/**", "pyrightconfig.json", ".pre-commit-config.yaml", "mkdocs.yml", "uv.lock", "CHANGELOG.md", "CONTRIBUTING.md", "SECURITY.md", "CODE_OF_CONDUCT.md"]
+source-include = ["AGENTS.md", "CLAUDE.md", "docs/**", "tests/**", "examples/**", "scripts/**", "benchmarks/**", "pyrightconfig.json", ".pre-commit-config.yaml", "mkdocs.yml", "uv.lock", "CHANGELOG.md", "CONTRIBUTING.md", "SECURITY.md", "CODE_OF_CONDUCT.md"]
 
 [tool.ruff]
 target-version = "py311"

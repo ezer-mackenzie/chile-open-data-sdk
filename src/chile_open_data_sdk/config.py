@@ -3,19 +3,23 @@
 import re
 from dataclasses import dataclass, field
 from math import isfinite
-from typing import TypeGuard
 from urllib.parse import urlsplit
 
+from chile_open_data_sdk.constants import (
+    ACTION_PATH_PATTERN,
+    DEFAULT_ACTION_PATH,
+    DEFAULT_CONNECT_TIMEOUT,
+    DEFAULT_MAX_CONNECTIONS,
+    DEFAULT_MAX_KEEPALIVE_CONNECTIONS,
+    DEFAULT_POOL_TIMEOUT,
+    DEFAULT_READ_TIMEOUT,
+    DEFAULT_SITE_URL,
+    DEFAULT_USER_AGENT,
+    DEFAULT_WRITE_TIMEOUT,
+)
+from chile_open_data_sdk.validation import is_connection_limit, validate_tls_verification
 
-def _is_connection_limit(value: object) -> TypeGuard[int]:
-    """Narrow untrusted runtime input to an integer, excluding booleans."""
-    return isinstance(value, int) and not isinstance(value, bool)
-
-
-def _validate_tls_verification(value: object) -> None:
-    """Reject untyped inputs that could accidentally disable TLS verification."""
-    if not isinstance(value, bool):
-        raise ValueError("verify must be a boolean")
+__all__ = ["ClientConfig"]
 
 
 @dataclass(frozen=True, slots=True)
@@ -26,16 +30,16 @@ class ClientConfig:
     redirects are deliberately disabled. ``api_token`` is excluded from repr.
     """
 
-    site_url: str = "https://datos.gob.cl"
-    action_path: str = "/api/3/action"
+    site_url: str = DEFAULT_SITE_URL
+    action_path: str = DEFAULT_ACTION_PATH
     api_token: str | None = field(default=None, repr=False)
-    user_agent: str = "chile-open-data-sdk/0.1.0"
-    connect_timeout: float = 5.0
-    read_timeout: float = 30.0
-    write_timeout: float = 30.0
-    pool_timeout: float = 5.0
-    max_connections: int = 100
-    max_keepalive_connections: int = 20
+    user_agent: str = DEFAULT_USER_AGENT
+    connect_timeout: float = DEFAULT_CONNECT_TIMEOUT
+    read_timeout: float = DEFAULT_READ_TIMEOUT
+    write_timeout: float = DEFAULT_WRITE_TIMEOUT
+    pool_timeout: float = DEFAULT_POOL_TIMEOUT
+    max_connections: int = DEFAULT_MAX_CONNECTIONS
+    max_keepalive_connections: int = DEFAULT_MAX_KEEPALIVE_CONNECTIONS
     verify: bool = True
 
     def __post_init__(self) -> None:
@@ -61,7 +65,7 @@ class ClientConfig:
             raise ValueError(
                 "site_url must be an HTTP(S) URL without credentials, query or fragment"
             )
-        if not re.fullmatch(r"/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+/?", self.action_path):
+        if not re.fullmatch(ACTION_PATH_PATTERN, self.action_path):
             raise ValueError("action_path must contain only absolute path segments")
         object.__setattr__(self, "site_url", self.site_url.rstrip("/"))
         object.__setattr__(self, "action_path", self.action_path.rstrip("/"))
@@ -74,9 +78,9 @@ class ClientConfig:
             if isinstance(value, bool) or not isfinite(value) or value <= 0:
                 raise ValueError("Timeouts must be finite positive seconds")
         if (
-            not _is_connection_limit(self.max_connections)
+            not is_connection_limit(self.max_connections)
             or self.max_connections < 1
-            or not _is_connection_limit(self.max_keepalive_connections)
+            or not is_connection_limit(self.max_keepalive_connections)
             or not 0 <= self.max_keepalive_connections <= self.max_connections
         ):
             raise ValueError("Connection limits must be integers with 0 <= keepalive <= maximum")
@@ -85,7 +89,7 @@ class ClientConfig:
                 not header_value or any(ord(c) < 32 or ord(c) > 126 for c in header_value)
             ):
                 raise ValueError("Header values must be nonempty printable ASCII")
-        _validate_tls_verification(self.verify)
+        validate_tls_verification(self.verify)
 
     @property
     def action_url(self) -> str:

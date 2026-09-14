@@ -4,52 +4,36 @@ import json
 from typing import cast
 
 import httpx
-from pydantic import BaseModel, ConfigDict, JsonValue, StrictBool, ValidationError
+from pydantic import ValidationError
 
+from chile_open_data_sdk.constants import (
+    CKAN_ERROR_TYPES,
+    CREDENTIAL_KEY_PARTS,
+    HTTP_ERROR_TYPES,
+    REDACTED_VALUE,
+)
 from chile_open_data_sdk.errors import (
     CKANAPIError,
-    CKANAuthenticationError,
-    CKANAuthorizationError,
-    CKANError,
     CKANHTTPError,
-    CKANNotFoundError,
     CKANProtocolError,
-    CKANRateLimitError,
-    CKANValidationError,
 )
+from chile_open_data_sdk.models import ActionResponse
 from chile_open_data_sdk.types import JSONValue
 
-
-class ActionResponse(BaseModel):
-    """Internal envelope; extension metadata is tolerated."""
-
-    model_config = ConfigDict(extra="allow")
-    success: StrictBool
-    result: JsonValue = None
-    error: dict[str, JsonValue] | None = None
+__all__ = ["parse_response", "redact"]
 
 
-def redact(value: JSONValue, token: str | None) -> JSONValue:
+def redact(value: JSONValue, token: str | None = None) -> JSONValue:
     """Remove configured tokens and values of credential-like diagnostic keys."""
     if isinstance(value, str):
-        return value.replace(token, "[REDACTED]") if token else value
+        return value.replace(token, REDACTED_VALUE) if token else value
     if isinstance(value, list):
         return [redact(item, token) for item in value]
     if isinstance(value, dict):
         return {
             str(redact(key, token)): (
-                "[REDACTED]"
-                if any(
-                    part in key.lower()
-                    for part in (
-                        "token",
-                        "authorization",
-                        "password",
-                        "secret",
-                        "api_key",
-                        "apikey",
-                    )
-                )
+                REDACTED_VALUE
+                if any(part in key.lower() for part in CREDENTIAL_KEY_PARTS)
                 else redact(item, token)
             )
             for key, item in value.items()
@@ -57,25 +41,9 @@ def redact(value: JSONValue, token: str | None) -> JSONValue:
     return value
 
 
-_STATUS_ERRORS: dict[int, type[CKANError]] = {
-    400: CKANValidationError,
-    401: CKANAuthenticationError,
-    403: CKANAuthorizationError,
-    404: CKANNotFoundError,
-    409: CKANValidationError,
-    422: CKANValidationError,
-    429: CKANRateLimitError,
-}
-_TYPE_ERRORS: dict[str, type[CKANError]] = {
-    "Authentication Error": CKANAuthenticationError,
-    "Authorization Error": CKANAuthorizationError,
-    "Not Found Error": CKANNotFoundError,
-    "Validation Error": CKANValidationError,
-}
-
-
-def parse_response(response: httpx.Response, action: str, token: str | None) -> JSONValue:
+def parse_response(response: httpx.Response, action: str, token: str | None = None) -> JSONValue:
     """Return only the result; convert HTTP, CKAN, and malformed response failures."""
+    action = str(redact(action, token))
     envelope = None
     try:
         envelope = ActionResponse.model_validate_json(response.content)
@@ -86,9 +54,9 @@ def parse_response(response: httpx.Response, action: str, token: str | None) -> 
         details = redact(cast(JSONValue, envelope.error), token) if envelope else None
         error_type = details.get("__type") if isinstance(details, dict) else None
         error_type = error_type if isinstance(error_type, str) else None
-        error_class = _STATUS_ERRORS.get(status)
+        error_class = HTTP_ERROR_TYPES.get(status)
         if error_class is None:
-            error_class = _TYPE_ERRORS.get(error_type or "")
+            error_class = CKAN_ERROR_TYPES.get(error_type or "")
         if error_class is None:
             error_class = CKANHTTPError if not response.is_success else CKANAPIError
         raise error_class(
