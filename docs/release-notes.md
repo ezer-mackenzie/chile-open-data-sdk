@@ -34,8 +34,9 @@ Earlier private response imports must use `chile_open_data_sdk.responses` and
 
 ## Remaining milestones
 
-Typed DataStore reads/SQL and record iteration target v0.3.0. Async clients,
-retries, authenticated write services, downloads, and dataframe integrations are
+The revised roadmap targets native async clients and catalog parity in v0.3.0.
+Typed DataStore reads/SQL and record iteration follow in v0.4.0 in both modes.
+Retries, authenticated write services, downloads, and dataframe integrations are
 later work. This alpha is not a stable 1.x API or an official government SDK.
 
 The source and distributions are prepared locally. Publication requires the

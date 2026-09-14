@@ -29,9 +29,21 @@ the user in their preferred language. Preserve Spanish in upstream data.
 Expose reusable SDK functionality through public modules and document its
 contract in `docs/api.md`. Keep shared constants and types in their owning modules.
 Use `__all__` only at the package root to declare convenience reexports; avoid
-redundant lists in individual modules. Do not reintroduce an `_internal` package. Keep per-instance implementation state
+redundant lists in individual modules. Do not reintroduce an `_internal` package.
+Keep per-instance implementation state
 encapsulated and respect HTTP client ownership. Update exports, examples, tests,
 and compatibility notes together when changing a public API.
+
+## Planned sync/async parity
+
+The next milestone, v0.3.0, adds native async clients and parity for existing
+catalog services. DataStore moves to v0.4.0 and must ship in both modes.
+Follow the acceptance matrix in `docs/roadmap.md`. Share pure preparation,
+validation, models, errors, and pagination state; keep sync and async HTTP clients
+and lifetimes explicit. Preserve existing sync imports and method behavior.
+Do not bridge SDK sync calls through asyncio.run or wrap sync HTTP calls to fake
+an async API. Propagate cancellation and test async cleanup independently.
+Keep planned examples clearly labeled until the implementations exist.
 
 ## Environment and checks
 

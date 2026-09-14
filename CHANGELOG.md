@@ -5,6 +5,14 @@ public API; compatibility changes will be recorded explicitly.
 
 ## Unreleased
 
+### Documentation
+
+- Move native async clients and catalog parity to the planned v0.3.0 milestone;
+  move DataStore to v0.4.0 with both sync and async implementations.
+- Define client families, module boundaries, lifecycle/cancellation behavior,
+  lazy iterator contracts, and shared parity acceptance tests. Runtime behavior
+  and the v0.2.0 release tag are unchanged.
+
 ## 0.2.0
 
 Prepared locally; publication and remote release validation are separate steps.

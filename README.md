@@ -12,7 +12,9 @@ CKAN client. Configuration, connection pooling, explicit token authentication,
 generic actions, and structured errors remain available.
 
 DataStore wrappers, async clients, retries, downloads, and dataframe integrations
-belong to later milestones. See the [catalog guide](docs/catalog.md).
+belong to later milestones. Next, v0.3.0 targets native async clients and catalog
+parity; v0.4.0 targets DataStore in both modes. See the [roadmap](docs/roadmap.md)
+and [catalog guide](docs/catalog.md).
 
 ## Installation
 

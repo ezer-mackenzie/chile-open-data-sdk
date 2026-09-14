@@ -19,6 +19,9 @@ Run Ruff, format checking, mypy, BasedPyright, and offline pytest for code chang
 run strict MkDocs and artifact validation for docs and packaging changes.
 The complete commands and optional benchmark setup are in AGENTS.md.
 
+The next milestone is v0.3.0 sync/async parity; DataStore follows in v0.4.0
+with both modes. Follow the shared acceptance matrix in `docs/roadmap.md`.
+
 ## Where to look
 
 - [API reference](docs/api.md): supported exports and lower-level usage.
