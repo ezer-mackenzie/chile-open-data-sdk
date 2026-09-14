@@ -4,7 +4,7 @@ import json
 from typing import cast
 
 import httpx
-from pydantic import ValidationError
+from pydantic import TypeAdapter, ValidationError
 
 from chile_open_data_sdk.constants import (
     CKAN_ERROR_TYPES,
@@ -18,9 +18,7 @@ from chile_open_data_sdk.errors import (
     CKANProtocolError,
 )
 from chile_open_data_sdk.models import ActionResponse
-from chile_open_data_sdk.types import JSONValue
-
-__all__ = ["parse_response", "redact"]
+from chile_open_data_sdk.types import JSONValue, ResultT
 
 
 def redact(value: JSONValue, token: str | None = None) -> JSONValue:
@@ -77,3 +75,16 @@ def parse_response(response: httpx.Response, action: str, token: str | None = No
             "Non-finite JSON result", action=action, status_code=status
         ) from None
     return result
+
+
+def parse_result(value: JSONValue, adapter: TypeAdapter[ResultT], action: str) -> ResultT:
+    """Validate an unwrapped result without retaining raw Pydantic error inputs.
+
+    The action must be a safe diagnostic label. SDK services supply fixed action
+    names. Invalid typed results raise CKANProtocolError with no raw error chain.
+    """
+    try:
+        return adapter.validate_python(value)
+    except ValidationError:
+        pass
+    raise CKANProtocolError("Invalid CKAN action result", action=action)

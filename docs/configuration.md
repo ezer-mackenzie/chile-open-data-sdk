@@ -15,7 +15,7 @@ with ChileOpenDataClient(config=config) as client:
 | `site_url` | `https://datos.gob.cl` | HTTP(S) site, optionally with deployment prefix |
 | `action_path` | `/api/3/action` | Absolute action path appended to the site |
 | `api_token` | `None` | Explicit CKAN Authorization value, excluded from repr |
-| `user_agent` | `chile-open-data-sdk/0.1.0` | Request user agent |
+| `user_agent` | `chile-open-data-sdk/0.2.0` | Request user agent |
 | `connect_timeout` | `5.0` | Connect timeout in seconds |
 | `read_timeout` | `30.0` | Read timeout in seconds |
 | `write_timeout` | `30.0` | Write timeout in seconds |
@@ -50,11 +50,11 @@ with ChileOpenDataClient(api_token=os.environ["CHILE_OPEN_DATA_API_TOKEN"]) as c
 ```
 
 This environment lookup belongs to your application. The standard constructors
-never load credentials implicitly; there is no `from_env()` helper in v0.1.0.
+never load credentials implicitly; there is no `from_env()` helper in v0.2.0.
 
 Redirects are always disabled and surface as HTTP errors. Environment proxy and
 netrc settings are ignored (`trust_env=False`). Proxy configuration is not exposed
-in v0.1.0. Use HTTPS for credentials; HTTP support exists for local CKAN deployments.
+in v0.2.0. Use HTTPS for credentials; HTTP support exists for local CKAN deployments.
 The SDK does not log tokens or retain raw HTTPX requests in its exceptions. An
 application that inspects config fields, enables external HTTP debugging, or logs
 its own input is responsible for protecting those values.

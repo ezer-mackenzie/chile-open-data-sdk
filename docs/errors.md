@@ -45,4 +45,4 @@ Malformed/non-JSON response bodies are discarded from diagnostics.
 
 Local configuration, invalid action names, and non-JSON parameters raise
 `ValueError`. Calling a closed client raises `CKANError`. No exception triggers
-an automatic retry in v0.1.0.
+an automatic retry in v0.2.0.

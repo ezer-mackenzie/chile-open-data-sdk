@@ -59,7 +59,7 @@ def test_json_post_endpoint_authentication_and_reuse():
         assert str(request.url) == "https://example.test/ckan/api/3/action/package_search"
         assert request.method == "POST"
         assert request.headers["Authorization"] == "test-secret"
-        assert request.headers["user-agent"] == "chile-open-data-sdk/0.1.0"
+        assert request.headers["user-agent"] == "chile-open-data-sdk/0.2.0"
         assert json.loads(request.content)["filters"] == {"region": [1, 2]}
         assert request.extensions["timeout"] == {"connect": 5, "read": 30, "write": 30, "pool": 5}
     assert "test-secret" not in repr(config)

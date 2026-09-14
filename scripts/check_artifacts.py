@@ -1,6 +1,7 @@
 """Verify built archives include the import package, typing marker, and metadata."""
 
 import tarfile
+import tomllib
 import zipfile
 from email.parser import BytesParser
 from pathlib import Path
@@ -8,6 +9,9 @@ from pathlib import Path
 
 def main() -> None:
     """Inspect exactly one wheel and sdist in dist/."""
+    version = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))["project"][
+        "version"
+    ]
     wheels = list(Path("dist").glob("*.whl"))
     sdists = list(Path("dist").glob("*.tar.gz"))
     assert len(wheels) == len(sdists) == 1, "Expected exactly one wheel and one sdist"
@@ -15,7 +19,7 @@ def main() -> None:
         names = wheel.namelist()
         assert "chile_open_data_sdk/__init__.py" in names
         assert "chile_open_data_sdk/py.typed" in names
-        for module in ("responses", "models", "constants", "types", "validation"):
+        for module in ("catalog", "responses", "models", "constants", "types", "validation"):
             assert f"chile_open_data_sdk/{module}.py" in names
         assert not any("/_internal/" in name for name in names)
         assert not any(name.startswith("chile_open_data/") for name in names)
@@ -23,7 +27,7 @@ def main() -> None:
             wheel.read(next(n for n in names if n.endswith("/METADATA")))
         )
         assert metadata["Name"] == "chile-open-data-sdk"
-        assert metadata["Version"] == "0.1.0"
+        assert metadata["Version"] == version
         assert metadata["Requires-Python"] == ">=3.11"
         assert len(metadata.get_all("Requires-Dist", [])) == 2
         assert any(name.endswith("/LICENSE.md") for name in names)

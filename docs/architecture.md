@@ -2,6 +2,8 @@
 
 The foundation is small enough to keep network execution in `client.py`.
 `CKANClient` owns one `httpx.Client` and exposes an `ActionService` at `actions`.
+`catalog.py` composes dataset, resource, organization, group, and tag services
+with the same `ActionService`, preserving one owned connection pool.
 `ChileOpenDataClient` only supplies a default site. `ClientConfig` validates
 immutable options independently of network I/O.
 
@@ -10,12 +12,14 @@ redaction without executing requests. `models` contains the Pydantic v2 envelope
 `constants` centralizes defaults and immutable error maps, and `validation` exposes
 runtime setting validators. It can be
 reused by the future asynchronous transport. Public JSON values use a recursive
-type alias, while future entity models will preserve CKAN extension fields.
+type alias, while catalog models preserve CKAN extension fields.
 
 ```mermaid
 flowchart LR
     App[Application] --> Client[CKANClient / ChileOpenDataClient]
-    Client --> Actions[ActionService]
+    Client --> Catalog[Typed catalog services]
+    Catalog --> Actions[ActionService]
+    Client --> Actions
     Actions --> HTTP[Reusable HTTPX client]
     HTTP --> Server[CKAN Action API v3]
     Actions --> Parser[Envelope validation and error mapping]

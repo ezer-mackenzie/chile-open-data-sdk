@@ -31,7 +31,7 @@ class CKANAPIError(CKANError):
 
 
 class CKANProtocolError(CKANError):
-    """The response was not a valid CKAN JSON envelope."""
+    """The CKAN envelope, typed result, or pagination progression was invalid."""
 
 
 class CKANHTTPError(CKANError):

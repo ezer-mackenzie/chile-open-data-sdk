@@ -4,16 +4,15 @@ An unofficial, typed Python SDK for Chile's **datos.gob.cl**, with a reusable
 CKAN Action API core. This community project is **not an official SDK of the
 Government of Chile or the maintainers of datos.gob.cl**.
 
-## v0.1.0 scope
+## v0.2.0 scope
 
-This first release provides a synchronous client, validated configuration,
-connection pooling, JSON action calls, token authentication, and structured errors.
-It is an alpha foundation with a deliberately small public API.
+This alpha adds typed dataset search and metadata lookup, resource metadata,
+organization/group/tag discovery, and lazy catalog pagination to the synchronous
+CKAN client. Configuration, connection pooling, explicit token authentication,
+generic actions, and structured errors remain available.
 
-Typed dataset services, DataStore wrappers, pagination, async clients, downloads,
-and pandas/Polars integrations are planned for later milestones; they are not
-available in v0.1.0. Generic actions can already query catalog and DataStore
-endpoints when the server supports them.
+DataStore wrappers, async clients, retries, downloads, and dataframe integrations
+belong to later milestones. See the [catalog guide](docs/catalog.md).
 
 ## Installation
 
@@ -27,13 +26,13 @@ Or build and install the wheel with a standard Python installer:
 
 ```console
 uv build
-python -m pip install dist/chile_open_data_sdk-0.1.0-py3-none-any.whl
+python -m pip install dist/chile_open_data_sdk-0.2.0-py3-none-any.whl
 ```
 
-After v0.1.0 is published, installation will be:
+After v0.2.0 is published, installation will be:
 
 ```console
-python -m pip install chile-open-data-sdk==0.1.0
+python -m pip install chile-open-data-sdk==0.2.0
 ```
 
 The distribution is `chile-open-data-sdk`; the import is `chile_open_data_sdk`.
@@ -44,16 +43,13 @@ The distribution is `chile-open-data-sdk`; the import is `chile_open_data_sdk`.
 from chile_open_data_sdk import ChileOpenDataClient
 
 with ChileOpenDataClient() as client:
-    result = client.actions.call("package_search", {"q": "transport", "rows": 5})
-    datasets = result.get("results") if isinstance(result, dict) else None
-    if isinstance(datasets, list):
-        for dataset in datasets:
-            if isinstance(dataset, dict):
-                print(dataset.get("title"))
+    result = client.datasets.search("transport", rows=5)
+    for dataset in result.results:
+        print(dataset.title)
 ```
 
-The default endpoint is `https://datos.gob.cl/api/3/action`. Calls return the
-unwrapped JSON `result`, preserving additional server fields. Availability and
+The default endpoint is `https://datos.gob.cl/api/3/action`. Typed catalog calls return Pydantic models, while `client.actions.call` returns
+the unwrapped JSON `result`. Both preserve additional server fields. Availability and
 metadata quality depend on the upstream portal.
 
 ## Another CKAN site
@@ -100,7 +96,7 @@ representations exclude the configured token; do not log raw payloads or credent
 - [Compatibility and limitations](docs/compatibility.md)
 - [Roadmap](docs/roadmap.md)
 - [Release process](docs/releasing.md)
-- [v0.1.0 release notes](docs/release-notes.md)
+- [v0.2.0 release notes](docs/release-notes.md)
 - [Changelog](CHANGELOG.md)
 
 Build the documentation locally with `uv run --group docs mkdocs build --strict`,

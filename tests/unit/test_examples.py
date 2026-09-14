@@ -12,7 +12,11 @@ def test_quickstart(monkeypatch, capsys):
     def handler(request):
         assert request.url.path == "/api/3/action/package_search"
         return httpx.Response(
-            200, json={"success": True, "result": {"results": [{"title": "Transport"}]}}
+            200,
+            json={
+                "success": True,
+                "result": {"count": 1, "results": [{"id": "d", "name": "d", "title": "Transport"}]},
+            },
         )
 
     def make_client():

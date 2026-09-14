@@ -19,8 +19,6 @@ from chile_open_data_sdk.constants import (
 )
 from chile_open_data_sdk.validation import is_connection_limit, validate_tls_verification
 
-__all__ = ["ClientConfig"]
-
 
 @dataclass(frozen=True, slots=True)
 class ClientConfig:

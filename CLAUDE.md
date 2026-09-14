@@ -7,7 +7,8 @@ rules there so the two guides do not drift.
 ## Working context
 
 The distribution is `chile-open-data-sdk`; the Python package is
-`chile_open_data_sdk`. This milestone implements synchronous generic CKAN actions.
+`chile_open_data_sdk`. The v0.2.0 milestone implements typed catalog discovery and dataset pagination
+on top of synchronous generic CKAN actions.
 Public clients, services, envelopes, response helpers, validators, JSON aliases,
 and exceptions are available from the package root and their documented modules.
 Shared defaults and immutable error mappings live in `constants.py`.

@@ -17,7 +17,7 @@ from chile_open_data_sdk.errors import (
     CKANValidationError,
 )
 
-SDK_VERSION: Final = "0.1.0"
+SDK_VERSION: Final = "0.2.0"
 DEFAULT_SITE_URL: Final = "https://datos.gob.cl"
 DEFAULT_ACTION_PATH: Final = "/api/3/action"
 DEFAULT_USER_AGENT: Final = f"chile-open-data-sdk/{SDK_VERSION}"
@@ -58,3 +58,8 @@ CKAN_ERROR_TYPES: Final[Mapping[str, type[CKANError]]] = MappingProxyType(
         "Validation Error": CKANValidationError,
     }
 )
+
+DEFAULT_SEARCH_ROWS: Final = 10
+DEFAULT_PAGE_SIZE: Final = 100
+DEFAULT_CATALOG_LIMIT: Final = 25
+DEFAULT_DATASET_SORT: Final = "id asc"

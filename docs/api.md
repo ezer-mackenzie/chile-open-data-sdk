@@ -1,7 +1,7 @@
 # API reference
 
 All SDK modules below are public. Clients, `ActionService`, `ClientConfig`,
-`ActionResponse`, `JSONObject`, `JSONValue`, response helpers, runtime validators,
+catalog models and services, `ActionResponse`, `JSONObject`, `JSONValue`, response helpers, runtime validators,
 and all SDK exception classes can also be imported from `chile_open_data_sdk`.
 `__version__` exposes the SDK version; shared constants are available through
 `from chile_open_data_sdk import constants`.
@@ -52,7 +52,7 @@ headers, timeouts, redirects, and its lifetime; the service only executes action
 
 ## Models, types, and response utilities
 
-::: chile_open_data_sdk.models.ActionResponse
+::: chile_open_data_sdk.models
 
 ::: chile_open_data_sdk.types
 
@@ -76,3 +76,19 @@ raises ValueError otherwise. Both accept object inputs for runtime validation.
 ## Exceptions
 
 ::: chile_open_data_sdk.errors
+
+## Catalog services
+
+See [Catalog discovery](catalog.md) for parameter mappings, model tolerance,
+pagination semantics, and complete usage examples. Services share the client's
+`ActionService`; direct construction does not create or own an HTTP client.
+
+::: chile_open_data_sdk.catalog.DatasetService
+
+::: chile_open_data_sdk.catalog.ResourceService
+
+::: chile_open_data_sdk.catalog.OrganizationService
+
+::: chile_open_data_sdk.catalog.GroupService
+
+::: chile_open_data_sdk.catalog.TagService

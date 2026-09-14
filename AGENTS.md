@@ -4,8 +4,9 @@
 
 This repository builds `chile-open-data-sdk`; Python imports use
 `chile_open_data_sdk`. It is an unofficial Chile-first CKAN Action API SDK.
-The v0.1.0 foundation is synchronous, typed, and based on HTTPX and Pydantic v2.
-Follow `docs/roadmap.md`; async clients, retries, entity services, and dataframe
+The v0.2.0 SDK includes synchronous typed catalog services and dataset pagination,
+built on HTTPX and Pydantic v2.
+Follow `docs/roadmap.md`; async clients, retries, DataStore services, and dataframe
 integrations belong to later milestones unless explicitly requested.
 
 Keep code, documentation, examples, and commit messages in English. Respond to
@@ -14,9 +15,10 @@ the user in their preferred language. Preserve Spanish in upstream data.
 ## Layout and public API
 
 - `src/chile_open_data_sdk/client.py`: clients and `ActionService`.
+- `catalog.py`: dataset, resource, organization, group, and tag services.
 - `config.py`: immutable validated `ClientConfig`.
 - `constants.py`: shared defaults, patterns, and read-only error mappings.
-- `types.py`: recursive JSON aliases; `models.py`: Pydantic envelopes.
+- `types.py`: recursive JSON aliases; `models.py`: Pydantic envelopes and catalog models.
 - `responses.py`: public parsing and diagnostic redaction.
 - `validation.py`: public runtime validators; `errors.py`: exception hierarchy.
 - `__init__.py`: supported convenience exports and package version.
@@ -26,7 +28,8 @@ the user in their preferred language. Preserve Spanish in upstream data.
 
 Expose reusable SDK functionality through public modules and document its
 contract in `docs/api.md`. Keep shared constants and types in their owning modules.
-Do not reintroduce an `_internal` package. Keep per-instance implementation state
+Use `__all__` only at the package root to declare convenience reexports; avoid
+redundant lists in individual modules. Do not reintroduce an `_internal` package. Keep per-instance implementation state
 encapsulated and respect HTTP client ownership. Update exports, examples, tests,
 and compatibility notes together when changing a public API.
 

@@ -5,6 +5,32 @@ public API; compatibility changes will be recorded explicitly.
 
 ## Unreleased
 
+## 0.2.0
+
+Prepared locally; publication and remote release validation are separate steps.
+
+### Added
+
+- Typed Dataset, Resource, Organization, Group, Tag, and DatasetSearchResult models
+  that preserve extension fields, string IDs, dates, and resource URLs.
+- Dataset listing, search, metadata lookup, and resource metadata lookup through
+  dedicated services sharing the existing connection pool.
+- Organization, group, and tag discovery with consistent list/get methods.
+- Lazy dataset iter_pages and iter_search with configurable page size, initial
+  offset, stable default ordering, and an optional item limit.
+- Pagination handling for server page caps, empty pages, changing counts, and
+  repeated pages; typed result failures use sanitized SDK protocol errors.
+- Catalog guide, typed quick start, offline contracts, and opt-in live discovery tests.
+
+### Changed
+
+- Remove redundant module-level __all__ lists; retain the package-root list for
+  typed convenience reexports. Explicit named module imports remain supported.
+- Synchronize package version, user agent, lockfile, CI installation checks, and
+  release documentation for 0.2.0. Artifact checks read the declared version.
+
+## Foundation follow-up
+
 ### Changed
 
 - Replace `_internal.responses` with public `responses` and `models` modules.
@@ -42,7 +68,8 @@ public API; compatibility changes will be recorded explicitly.
   untyped configuration values from the typed configuration model.
 - Make response assignment and quick-start JSON narrowing explicit for static analyzers.
 
-These changes follow the local v0.1.0 checkpoint; the existing tag is not moved.
+These entries record foundation follow-up work. Inspect Git history and each tag
+to identify the exact source included in a release.
 
 ## 0.1.0
 

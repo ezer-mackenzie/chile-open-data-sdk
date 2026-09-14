@@ -1,4 +1,60 @@
-# v0.1.0 release validation
+# v0.2.0 release validation
+
+Local verification on **2026-09-14**, Windows x86-64, using uv 0.12.13.
+This record covers the typed catalog milestone. Remote CI and publication are
+separate checks and are not claimed here.
+
+## Current results
+
+| Check | Result |
+| --- | --- |
+| Lockfile consistency | `uv lock --check` passed |
+| Ruff lint and format | Passed |
+| Strict mypy / BasedPyright | Passed; ten source modules, no typing diagnostics |
+| Python 3.11.16 | 147 passed, two opt-in live tests skipped |
+| Python 3.12.14 | 147 passed, two opt-in live tests skipped |
+| Python 3.13.15 | 147 passed, two opt-in live tests skipped |
+| Python 3.14.7 | 147 passed, two opt-in live tests skipped |
+| Minimum runtime dependencies | 147 passed on Python 3.11.16 with HTTPX 0.28.1 / Pydantic 2.12.0 |
+| Coverage | 100% statements and branches on Python 3.14; configured floor 90% |
+| Live read-only portal checks | Two passed: generic search and typed catalog discovery |
+| Typed runnable quick start | Verified offline with MockTransport |
+| pytest-benchmark / BenchCore | Two cases passed in each optional group |
+| Strict MkDocs | Passed |
+| Wheel and sdist | Built and inspected; metadata version 0.2.0, public modules, typing marker, docs |
+| Isolated wheel / sdist installs | Typed catalog search and client lifecycle passed from installed site-packages |
+| Runtime audit | pip-audit reported no known vulnerabilities in the locked runtime set |
+
+The default environment used HTTPX 0.28.1 and Pydantic 2.13.5. Minimum versions
+were installed in a separate Python 3.11 environment without changing uv.lock.
+The older Python 3.12 and 3.13 test environments initially lacked Hypothesis;
+installing the declared test dependency allowed both full suites to pass.
+
+Live tests contacted `https://datos.gob.cl/api/3/action` without credentials.
+They exercised package_search, package_show, resource_show when resources were
+present, organization_list, group_list, and filtered tag_list. The tests do not
+certify every dataset, plugin, CKAN version, or future portal availability.
+
+Offline cases cover nested metadata and extensions, missing optional fields,
+query/facet serialization, invalid pagination inputs, empty and capped pages,
+initial-count bounds, repeated-page errors, lazy consumption, max_items limits,
+malformed typed results, safe error chains, and shared client ownership.
+
+The first sandboxed pytest runs warned about cache write permissions. Final
+reported runs disabled pytest's cache provider and completed without that warning.
+Material for MkDocs printed an upstream informational notice; strict builds passed.
+uv warned about its local cache location; archive inspection confirmed caches and
+virtual environments are excluded. Benchmarks validate operation, not a performance
+improvement or a portable latency guarantee.
+
+Version 0.1.0 build artifacts were moved to the ignored
+`.cache/previous-distributions` directory; `dist/` contains only the 0.2.0 wheel and
+sdist. No historical release tag was moved and no distribution was uploaded as
+part of this checkpoint. Follow [Releasing](releasing.md) before publication.
+
+---
+
+## Historical v0.1.0 validation
 
 Local verification performed on **2026-09-13**, on Windows x86-64 with uv 0.12.13.
 This is evidence for the foundation milestone, not a claim that the future

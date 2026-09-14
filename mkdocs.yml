@@ -20,6 +20,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting started: getting-started.md
+  - Catalog discovery: catalog.md
   - Generic actions: actions.md
   - Configuration: configuration.md
   - Errors: errors.md

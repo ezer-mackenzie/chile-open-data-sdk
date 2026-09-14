@@ -10,15 +10,17 @@ are the supported test targets.
 from chile_open_data_sdk import ChileOpenDataClient
 
 with ChileOpenDataClient() as client:
-    result = client.actions.call("package_search", {"q": "transport", "rows": 5})
-    print(result)
+    result = client.datasets.search("transport", rows=5)
+    for dataset in result.results:
+        print(dataset.title)
 ```
 
 Use a context manager to release pooled connections. For long-lived applications,
 create one client, reuse it, and call `client.close()` during shutdown. Closing is
 idempotent. A closed client cannot be reused; create a new one.
 
-The Action API envelope is checked before returning `result`. JSON null becomes
+Typed catalog services return models; see [Catalog discovery](catalog.md).
+For `client.actions.call`, the Action API envelope is checked before returning `result`. JSON null becomes
 `None`, and lists, dictionaries, strings, numbers, and booleans retain their JSON
 meaning. No dataset model is implied by a generic result. Use `isinstance` checks
 when narrowing the recursive `JSONValue` type.

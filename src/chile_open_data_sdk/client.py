@@ -8,6 +8,13 @@ from typing import Self
 
 import httpx
 
+from chile_open_data_sdk.catalog import (
+    DatasetService,
+    GroupService,
+    OrganizationService,
+    ResourceService,
+    TagService,
+)
 from chile_open_data_sdk.config import ClientConfig
 from chile_open_data_sdk.constants import ACTION_NAME_PATTERN, DEFAULT_SITE_URL
 from chile_open_data_sdk.errors import CKANConnectionError, CKANError, CKANTimeoutError
@@ -100,6 +107,11 @@ class CKANClient:
             transport=transport,
         )
         self.actions = ActionService(self._http, config)
+        self.datasets = DatasetService(self.actions)
+        self.resources = ResourceService(self.actions)
+        self.organizations = OrganizationService(self.actions)
+        self.groups = GroupService(self.actions)
+        self.tags = TagService(self.actions)
 
     @property
     def is_closed(self) -> bool:

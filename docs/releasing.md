@@ -3,7 +3,7 @@
 The `Publish Python Package to PyPI` workflow validates, builds, and publishes
 through PyPI Trusted Publishing. Publishing a non-prerelease GitHub Release
 triggers it automatically. You can also run it manually with the required `tag`
-input, naming an existing version tag (for example `v0.1.0`). Manual dispatch is a
+input, naming an existing version tag (for example `v0.2.0`). Manual dispatch is a
 publication action, not a build-only preview; it may also explicitly select a
 prerelease tag if the package version and all checks agree.
 
@@ -23,7 +23,7 @@ not cancel an in-progress publication.
 4. Run the checks below and inspect the diff. Never tag a failing checkpoint.
 5. Commit coherent work using Conventional Commits and approved coauthor trailers.
 6. Create one annotated local tag only after all intended files are committed:
-   `git tag -a v0.1.0 -m "chile-open-data-sdk v0.1.0"`.
+   `git tag -a v0.2.0 -m "chile-open-data-sdk v0.2.0"`.
 
 ```console
 uv sync --locked --group docs
@@ -80,6 +80,6 @@ are not included in an existing tag. Do not assume a tag points to current HEAD.
 
 ## Scope boundary
 
-v0.1.0 is the synchronous foundation. Later roadmap features are not blockers for
+v0.2.0 adds typed catalog discovery and dataset pagination. Later roadmap features are not blockers for
 this milestone. A 1.0 release requires a separate stable API review, complete
 sync/async parity, and the broader validation described by the roadmap.

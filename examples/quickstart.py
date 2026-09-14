@@ -1,17 +1,14 @@
-"""Search a small page of public dataset metadata."""
+"""Print titles from one typed catalog search (contacts the live public portal)."""
 
 from chile_open_data_sdk import ChileOpenDataClient
 
 
 def main() -> None:
-    """Print titles from the first five matching datasets."""
+    """Search one page and close the shared connection pool."""
     with ChileOpenDataClient() as client:
-        result = client.actions.call("package_search", {"q": "transport", "rows": 5})
-        datasets = result.get("results") if isinstance(result, dict) else None
-        if isinstance(datasets, list):
-            for dataset in datasets:
-                if isinstance(dataset, dict):
-                    print(dataset.get("title"))
+        result = client.datasets.search("transport", rows=5)
+        for dataset in result.results:
+            print(dataset.title)
 
 
 if __name__ == "__main__":

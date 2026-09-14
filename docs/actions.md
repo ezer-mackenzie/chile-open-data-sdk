@@ -31,7 +31,7 @@ with ChileOpenDataClient() as client:
 
 `package_show` and `resource_show` accept an `id` parameter supplied by your
 application. The names and capabilities of actions depend on the CKAN server and
-its plugins. Prefer the planned typed services when they become available.
+its plugins. Prefer the [typed catalog services](catalog.md) for modeled actions.
 
 ## DataStore examples
 
@@ -63,8 +63,9 @@ read-only allowlist or write confirmation in the SDK. CKAN enforces authorizatio
 Never use production writes as connectivity tests.
 
 Every call makes one attempt. A timeout can occur after a write was applied; do
-not blindly repeat it. Pagination is manual in v0.1.0: set `start`/`rows` or
-`offset`/`limit` as appropriate. No background or unbounded fetching occurs.
+not blindly repeat it. Generic calls use explicit `start`/`rows` or `offset`/`limit` parameters.
+Dataset search also has lazy `iter_pages` and `iter_search` helpers in v0.2.0.
+No background fetching occurs.
 
 Protocol references: [CKAN Action API](https://docs.ckan.org/en/2.11/api/) and
 [DataStore API](https://docs.ckan.org/en/2.11/maintaining/datastore.html).

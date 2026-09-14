@@ -1,7 +1,7 @@
 # Roadmap
 
-Milestones describe real usable checkpoints; dates are not promised. This task
-stops at v0.1.0. Documentation, CI, and security basics are included early so the
+Milestones describe real usable checkpoints; dates are not promised. The current
+checkpoint is v0.2.0. Documentation, CI, and security basics are included early so the
 first release can be reviewed and built.
 
 | Version | Planned capability |
